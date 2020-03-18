@@ -13,7 +13,7 @@ import com.unity3d.player.UnityPlayerActivity;
 public class VolumeButtonsActivity extends UnityPlayerActivity {
 
   /**
-   * Keep in sync with VolumeButton.Event in C#
+   * Keep in sync with VolumeButtonsEvent in C#
    */
   private enum Event {
     VOLUME_DOWN(-1),

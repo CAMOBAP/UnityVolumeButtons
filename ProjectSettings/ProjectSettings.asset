@@ -165,6 +165,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: org.camobap.unity3d
     Standalone: com.Company.ProductName
+    iPhone: org.camobap.unity3d
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
@@ -405,6 +406,9 @@ PlayerSettings:
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: AndroidPlayer
     m_APIs: 150000000b000000
+    m_Automatic: 0
+  - m_BuildTarget: iOSSupport
+    m_APIs: 08000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
   openGLRequireES31: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class VolumeButtons : MonoBehaviour
 		#if UNITY_ANDROID
 	        _CallActivity("addGameObjectListener", gameObject.name);
     	#elif UNITY_IOS
-	        // FIXME
+	        _AddGameObjectListener(gameObject.name, gameObject.name.Length);
     	#else
 			Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
     	#endif
@@ -29,7 +30,7 @@ public class VolumeButtons : MonoBehaviour
 		#if UNITY_ANDROID
 	        _CallActivity("removeGameObjectListener", gameObject.name);
     	#elif UNITY_IOS
-	        // FIXME
+	        _RemoveGameObjectListener(gameObject.name, gameObject.name.Length);
     	#else
 			Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
     	#endif
@@ -47,14 +48,27 @@ public class VolumeButtons : MonoBehaviour
     	}
     }
 
+#if UNITY_ANDROID
+
     private void _CallActivity(string methodName, string arg0)
     {
     	AndroidJNIHelper.debug = true;
-        using (AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) { 
-        	using (AndroidJavaObject activity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity")) {
+        using (AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        { 
+        	using (AndroidJavaObject activity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            {
         		Debug.LogFormat("Call {0}({1})", methodName, arg0);
 	            activity.Call(methodName, arg0); 
 	        }
         } 
     }
+
+#elif UNITY_IOS
+
+    [DllImport("__Internal", EntryPoint="VBP_addGameObjectListener")]
+    private static extern void _AddGameObjectListener([MarshalAs(UnmanagedType.LPWStr)]string gameObjectName, int gameObjectNameLen);
+    [DllImport("__Internal", EntryPoint="VBP_removeGameObjectListener")]
+    private static extern void _RemoveGameObjectListener([MarshalAs(UnmanagedType.LPWStr)]string gameObjectName, int gameObjectNameLen);
+    
+#endif
 }
