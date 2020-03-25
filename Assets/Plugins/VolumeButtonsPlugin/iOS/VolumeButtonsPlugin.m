@@ -94,8 +94,7 @@ MPVolumeView *_volumeView;
 
 @end
 
-void VBP_addGameObjectListener(const char *go_name, int go_name_length)
-{
+void VBP_addGameObjectListener(const char *go_name, int go_name_length) {
     if (!observer) {
         observer = [_VBPAVAudioSessionObserver new];
     }
@@ -109,12 +108,15 @@ void VBP_addGameObjectListener(const char *go_name, int go_name_length)
     [observer addGameObject:gon];
 }
 
-void VBP_removeGameObjectListener(const char *go_name, int go_name_length)
-{
+void VBP_removeGameObjectListener(const char *go_name, int go_name_length) {
     NSString* gon = [[NSString alloc]
                      initWithBytes:go_name
                      length:sizeof(__CHAR16_TYPE__) * go_name_length
                      encoding:NSUTF16LittleEndianStringEncoding];
 
     [observer removeGameObject:gon];
+}
+
+float VBP_getSystemVolumeLevel(void) {
+    return [[AVAudioSession sharedInstance] outputVolume];
 }

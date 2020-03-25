@@ -11,7 +11,7 @@ public class Blink : MonoBehaviour
 
 	public VolumeButtonsEventType InterestingEvent;
 
-	public void DoBlink(VolumeButtonsEventType e)
+	public void DoBlink(VolumeButtonsEventType e, VolumeButtons ctrl)
 	{
 		if (InterestingEvent == e)
 		{

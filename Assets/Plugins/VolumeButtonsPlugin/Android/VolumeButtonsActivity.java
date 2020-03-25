@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.content.Context;
+import android.media.AudioManager;
 
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
 public class VolumeButtonsActivity extends UnityPlayerActivity {
-
   /**
    * Keep in sync with VolumeButtonsEvent in C#
    */
@@ -30,28 +31,26 @@ public class VolumeButtonsActivity extends UnityPlayerActivity {
     }
   }
 
+  private static final String TAG = "VolumeButtonsActivity";
   private static final String MESSAGE_NAME = "_OnVolumeButtonEvent";
   private List<String> gameObjectNames = new ArrayList<>();
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // print debug message to logcat
-    Log.d("VolumeButtonsActivity", "onCreate called!");
+    Log.d(TAG, "onCreate called!");
   }
 
-  public void addGameObjectListener(String gameObjectName)
-  {
-    synchronized (gameObjectNames)
-    {
+  public void addGameObjectListener(String gameObjectName) {
+    synchronized (gameObjectNames) {
       gameObjectNames.add(gameObjectName);
+      Log.d(TAG, "addGameObjectListener " + gameObjectName);
     }
   }
 
-  public void removeGameObjectListener(String gameObjectName)
-  {
-    synchronized (gameObjectNames)
-    {
+  public void removeGameObjectListener(String gameObjectName) {
+    synchronized (gameObjectNames) {
       gameObjectNames.remove(gameObjectName);
+      Log.d(TAG, "removeGameObjectListener " + gameObjectName);
     }
   }
   
@@ -77,5 +76,20 @@ public class VolumeButtonsActivity extends UnityPlayerActivity {
     }
 
     return super.dispatchKeyEvent(event);
+  }
+
+  public float getSystemVolumeLevel() {
+    AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    if (audioManager == null) {
+        return -1.f;
+    }
+
+    Log.d(TAG, "getSystemVolumeLevel called!");
+
+    // https://stackoverflow.com/questions/43886901/how-to-convert-android-stream-volume-to-a-value-between-0-and-1
+    int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+    return currentVolume / (float) maxVolume;
   }
 }

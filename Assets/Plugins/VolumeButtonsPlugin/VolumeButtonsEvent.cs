@@ -3,6 +3,6 @@ using System;
 using UnityEngine.Events;
 
 [Serializable]
-public class VolumeButtonsEvent : UnityEvent<VolumeButtonsEventType>
+public class VolumeButtonsEvent : UnityEvent<VolumeButtonsEventType, VolumeButtons>
 {
 }
