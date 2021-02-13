@@ -7,25 +7,25 @@ using UnityEngine.UI;
 
 public class VolumeText : MonoBehaviour
 {
-	private Text volumeLevel;
+    private Text volumeLevel;
 
-	void Start()
+    void Start()
     {
-		_UpdateText(gameObject.GetComponent<VolumeButtons>());
+        _UpdateText(gameObject.GetComponent<VolumeButtons>());
     }
 
-	public void OnVolumeUpdated(VolumeButtonsEventType e, VolumeButtons ctrl)
-	{
-		_UpdateText(ctrl);
-	}
+    public void OnVolumeUpdated(VolumeButtonsEventType e, VolumeButtons ctrl)
+    {
+        _UpdateText(ctrl);
+    }
 
-	private void _UpdateText(VolumeButtons ctrl)
-	{
-    	Text volumeLevel = gameObject.GetComponent<UnityEngine.UI.Text>();
-    	string value = ctrl.SystemVolumeLevel.ToString("N2");
+    private void _UpdateText(VolumeButtons ctrl)
+    {
+        Text volumeLevel = gameObject.GetComponent<UnityEngine.UI.Text>();
+        string value = ctrl.SystemVolumeLevel.ToString("N2");
 
-    	Debug.LogFormat("Volume updated {0} of 1.0", value);
+        Debug.LogFormat("Volume updated {0} of 1.0", value);
 
-		volumeLevel.text = value;
-	}
+        volumeLevel.text = value;
+    }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class VolumeButtons : MonoBehaviour
 {
     #if !UNITY_ANDROID && !UNITY_IOS
-	private readonly RuntimePlatform[] SupportedPlatforms = new RuntimePlatform[] { RuntimePlatform.Android, RuntimePlatform.IPhonePlayer};
+    private readonly RuntimePlatform[] SupportedPlatforms = new RuntimePlatform[] { RuntimePlatform.Android, RuntimePlatform.IPhonePlayer};
     private readonly string UnsupportedError = "Unsupported platform '{0}'! At the moment we support only {1}";
     #endif
 
@@ -32,39 +32,39 @@ public class VolumeButtons : MonoBehaviour
 
     void Start()
     {
-		#if UNITY_ANDROID
-	        _CallActivityVoid("addGameObjectListener", gameObject.name);
-    	#elif UNITY_IOS
-	        _AddGameObjectListener(gameObject.name, gameObject.name.Length);
-    	#else
-			Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
-    	#endif
+        #if UNITY_ANDROID
+            _CallActivityVoid("addGameObjectListener", gameObject.name);
+        #elif UNITY_IOS
+            _AddGameObjectListener(gameObject.name, gameObject.name.Length);
+        #else
+            Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
+        #endif
     }
  
     void OnDisable()
     {
-		#if UNITY_ANDROID
-	        _CallActivityVoid("removeGameObjectListener", gameObject.name);
-    	#elif UNITY_IOS
-	        _RemoveGameObjectListener(gameObject.name, gameObject.name.Length);
-    	#else
-			Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
-    	#endif
+        #if UNITY_ANDROID
+            _CallActivityVoid("removeGameObjectListener", gameObject.name);
+        #elif UNITY_IOS
+            _RemoveGameObjectListener(gameObject.name, gameObject.name.Length);
+        #else
+            Debug.LogFormat(UnsupportedError, Application.platform, string.Join("", SupportedPlatforms));
+        #endif
     }
 
     private void _OnVolumeButtonEvent(string value)
     {
-    	if (OnVolumeButtonEvent != null)
-    	{
+        if (OnVolumeButtonEvent != null)
+        {
             #if DEBUG
             Debug.LogFormat("Volume event {0} delivered!", value);
             #endif
-    		this.OnVolumeButtonEvent.Invoke((VolumeButtonsEventType)Int32.Parse(value), this);
-    	}
-    	else
-    	{
-    		Debug.Log("No event subscribed!");
-    	}
+            this.OnVolumeButtonEvent.Invoke((VolumeButtonsEventType)Int32.Parse(value), this);
+        }
+        else
+        {
+            Debug.Log("No event subscribed!");
+        }
     }
 
 #if UNITY_ANDROID
@@ -73,13 +73,13 @@ public class VolumeButtons : MonoBehaviour
     {
         using (AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
         { 
-        	using (AndroidJavaObject activity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            using (AndroidJavaObject activity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity"))
             {
                 #if DEBUG
-        		Debug.LogFormat("Call {0}()", methodName);
+                Debug.LogFormat("Call {0}()", methodName);
                 #endif
-	            return activity.Call<float>(methodName); 
-	        }
+                return activity.Call<float>(methodName); 
+            }
         } 
     }
 
