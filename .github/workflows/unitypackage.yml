@@ -6,24 +6,28 @@ on:
     tags: [ v* ]
 
 jobs:
-  echo:
+  unitypackage:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - run: |
-        echo "Assets/Plugins.meta" > Plugin.metaList
-        find Assets/Plugins -name \*.meta >> Plugin.metaList
 
     - uses: benjlevesque/short-sha@v1.2
       id: short-sha
       with:
         length: 6
 
-    - uses: pCYSl5EDgo/create-unitypackage@master
+    - uses: actions/checkout@v2
       with:
-        package-path: VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
-        include-files: Plugin.metaList
+        repository: Lachee/Unity-Package-Exporter
+        path: upe
+
+    - uses: actions/setup-dotnet@v1
+
+    - run: |
+        dotnet run -p upe/UnityPackageExporter \
+                   -project . \
+                   -dir Assets/Plugins/VolumeButtonsPlugin \
+                   -output VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
 
     - uses: actions/upload-artifact@v2
       with:
