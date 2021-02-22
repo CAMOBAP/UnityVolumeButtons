@@ -1,3 +1,5 @@
+[![unitypackage](https://github.com/CAMOBAP/UnityVolumeButtons/actions/workflows/unitypackage.yml/badge.svg)](https://github.com/CAMOBAP/UnityVolumeButtons/actions/workflows/unitypackage.yml)
+
 # Unity3d VolumeButtonsPlugin
 
 This plugin was developed for Unity3d Android & iOS platforms to be able listen for Volume up/down button clicks, it doesn't override them
