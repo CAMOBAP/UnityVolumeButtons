@@ -24,10 +24,10 @@ jobs:
     - uses: actions/setup-dotnet@v3
 
     - run: |
-        dotnet run -p upe/UnityPackageExporter \
-                   -project . \
-                   -dir Assets/Plugins/VolumeButtonsPlugin \
-                   -output VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
+        dotnet publish -c Release -o ./upe "./upe/UnityPackageExporter"
+        dotnet ./upe/UnityPackageExporter.dll --project ./ \
+            --output VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage \
+            --assets Assets/Plugins/VolumeButtonsPlugin
 
     - uses: actions/upload-artifact@v3
       with:
