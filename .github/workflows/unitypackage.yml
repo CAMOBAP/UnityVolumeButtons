@@ -9,19 +9,19 @@ jobs:
   unitypackage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - uses: benjlevesque/short-sha@v1.2
+    - uses: benjlevesque/short-sha@v2.1
       id: short-sha
       with:
         length: 6
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         repository: Lachee/Unity-Package-Exporter
         path: upe
 
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v3
 
     - run: |
         dotnet run -p upe/UnityPackageExporter \
@@ -29,7 +29,7 @@ jobs:
                    -dir Assets/Plugins/VolumeButtonsPlugin \
                    -output VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         path: VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
         name: VolumeButtonsPlugin-${{ steps.short-sha.outputs.sha }}.unitypackage
